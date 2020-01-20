@@ -5,6 +5,9 @@ let launchOptions = {
     headless: true
 }
 
+/**
+ * Main function that runs puppeteer through mosaic interface then scrapes grade text from page and takes a screenshot
+ */
 async function getGrades() {
     const start = new Date();
     const browser = await puppeteer.launch(launchOptions);
@@ -78,8 +81,6 @@ async function getGrades() {
 
     const end = new Date();
     console.log('screenshot taken after: ', (end - start)/1000, 'seconds');
-
-    
 
     await browser.close();
 };
