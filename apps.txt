@@ -1,0 +1,43 @@
+https://macdrop.net/?s=4k+video+downloader
+4.13.3
+https://macdrop.net/?s=airfoil
+5.9.1
+https://macdrop.net/?s=alfred%204%20powerpack
+4.1.1
+https://macdrop.net/?s=aurora+hdr
+1.0.0
+https://macdrop.net/?s=bartender%203
+3.1.25
+https://macdrop.net/?s=copyclip
+2.9.98.5
+https://macdrop.net/?s=disk+doctor
+4.3
+https://macdrop.net/?s=download+shuttle
+1.6
+https://macdrop.net/?s=final+cut+pro
+10.5
+https://macdrop.net/?s=keyboard+maestro
+9.0.5
+https://macdrop.net/?s=loopback
+2.1.4
+https://macdrop.net/?s=luminar+4
+4.3.0
+https://macdrop.net/?s=motion+simply+special+effects
+5.5
+https://macdrop.net/?s=permute
+3.5.9
+https://macdrop.net/?s=soundsource
+5.1.2
+https://macdrop.net/?s=tooth+fairy
+2.7
+
+match = document.querySelector(
+        '#search-entries > article:first-child .search-entry-header-title a'
+    ).innerText.match(/[\d\.]+/g)
+str = ''
+for (i=match.length-1; i>0; i--) {
+    if (match[i].includes('.')) {
+        str = match[i]
+        break;
+    }
+}
