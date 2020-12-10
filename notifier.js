@@ -11,57 +11,27 @@ async function scrape() {
     const browser = await puppeteer.launch(launchOptions);
     const page = await browser.newPage();
 
-    const url = 'https://www.bestbuy.ca/en-ca/product/sandisk-extreme-plus-128gb-170-mb-s-microsd-memory-card/12927936'
+    const url = 'https://www.youtube.com/c/TaylorSwift/videos'
 
     await page.goto(url); 
 
-    await page.waitForSelector('.x-nearby-stores > div:nth-child(3) span[data-automation="pickup-store-list-item-store-name"]')
+    await page.waitForSelector('#items > ytd-grid-video-renderer:first-child #video-title')
     
-    let loc1 = await page.$eval(
-        '.x-nearby-stores > div:nth-child(1) span[data-automation="pickup-store-list-item-store-name"]',
+    let vidTitle = await page.$eval(
+        '#items > ytd-grid-video-renderer:first-child #video-title',
     el => el.innerText)
-
-    let loc2 = await page.$eval(
-        '.x-nearby-stores > div:nth-child(2) span[data-automation="pickup-store-list-item-store-name"]',
-    el => el.innerText)
-
-    let loc3 = await page.$eval(
-        '.x-nearby-stores > div:nth-child(3) span[data-automation="pickup-store-list-item-store-name"]',
-    el => el.innerText)
-
-    let na1 = await page.$eval(
-        '.x-nearby-stores > div:nth-child(1) > div:nth-child(2) > span',
-    el => el.innerText) !== "Not Available"
-
-    let na2 = await page.$eval(
-        '.x-nearby-stores > div:nth-child(2) > div:nth-child(2) > span',
-    el => el.innerText) !== "Not Available"
-
-    let na3 = await page.$eval(
-        '.x-nearby-stores > div:nth-child(3) > div:nth-child(2) > span',
-    el => el.innerText) !== "Not Available"
-
-    let locations = na1+ na2+ na3
     
-    let avail = ''
-    if (na1) avail += loc1
-    if (na1 && na2) avail += ' and '
-    if (na2) avail += loc2
-    if (na2 && na3 || na1 && na3) avail += ' and '
-    if (na3) avail += loc3
-    
-    console.log(avail);
+    let vidLink = await page.$eval(
+        '#items > ytd-grid-video-renderer:first-child #video-title',
+    el => el.href)
 
-    if (na1 || na2 || na3) {
+    if (vidTitle !== "Taylor Swift - exile (folklore: the long pond studio sessions | Disney+) ft. Bon Iver") {
         notifier.notify({
             title: `GO! GO! GO!`,
-            message: `Available in ${avail}!`,
+            message: vidTitle,
             sound: 'Glass',
-            open: url
+            open: vidLink
         });
-        console.log(na1 ? '✅' : '❌', loc1);
-        console.log(na2 ? '✅' : '❌', loc2);
-        console.log(na3 ? '✅' : '❌', loc3);
     } else {
         console.log(`Unavailable ${(new Date).getHours()}:${
             (new Date).getMinutes() < 10 ? '0'+(new Date).getMinutes() : (new Date).getMinutes()
@@ -76,7 +46,7 @@ async function scrape() {
 if (process.argv[2] === 'interval') {
     setInterval(() => {
         scrape();
-    }, 5*60*1000);
+    }, 30*1000);
 } else {
     scrape()
 }
