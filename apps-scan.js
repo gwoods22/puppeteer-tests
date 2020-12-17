@@ -13,8 +13,10 @@ async function checkPiratedApps() {
         let promises = [];
         for (let i = 0; i < apps.length; i++) {
             promises.push(await load(page, apps[i]));
-            console.log(`Scraping... ${parseInt((i+1)/apps.length*100)}%`);
+            process.stdout.write("\r\x1b[K")
+            process.stdout.write(`Scraping... ${parseInt((i+1)/apps.length*100)}%`);
         }
+        process.stdout.write("\n")
         // when all promises have been resolved continue
         return Promise.allSettled(promises);
     })(page, apps)
