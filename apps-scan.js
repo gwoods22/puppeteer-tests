@@ -1,6 +1,5 @@
 const puppeteer = require('puppeteer');
 const apps = require('./apps.json').apps
-const open = require('mac-open');
 
 let launchOptions = {
     headless: true
@@ -30,13 +29,11 @@ async function checkPiratedApps() {
     if ( results.length) {
         console.log("----Out of date apps----");
         for (let i = 0; i < results.length; i++) {
-            console.log("  ",results[i].name,"\n  ",results[i].url);
+            console.log(results[i].name,"\n  ",results[i].url);
         }
-        open("~/Documents/Projects/puppeteer-tests/apps.json")
     } else {
         console.log("All apps are up to date!");
     }
-
 }
 
 async function load(page, app) {
