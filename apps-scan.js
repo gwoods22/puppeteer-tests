@@ -1,5 +1,5 @@
 const puppeteer = require('puppeteer');
-const apps = require('./apps.json').apps
+const apps = require('./data/apps.json').apps
 
 let launchOptions = {
     headless: true
