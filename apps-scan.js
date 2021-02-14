@@ -7,6 +7,8 @@ let launchOptions = {
 async function checkPiratedApps() {
     const browser = await puppeteer.launch(launchOptions);
     const page = await browser.newPage();    
+
+    process.stdout.write('Scraping...0%')
     
     let results = await (async function loop(page, apps) {
         let promises = [];
@@ -22,14 +24,13 @@ async function checkPiratedApps() {
 
     browser.close()
 
-    results = results
-                .map(x => x.value)
-                .filter(x => !x.new );
+    results = results.map(x => x.value)
+                     .filter(x => !x.new );
     
     if ( results.length) {
         console.log("----Out of date apps----");
         for (let i = 0; i < results.length; i++) {
-            console.log(results[i].name,"\n  ",results[i].url);
+            console.log(`${results[i].newName} >> ${results[i].name.match(/(\d\.)+\d/)[0]}\n  ${results[i].url}`);
         }
     } else {
         console.log("All apps are up to date!");
@@ -42,6 +43,7 @@ async function load(page, app) {
         '#search-entries > article:first-child .search-entry-header-title a',
         x => x.innerText
     );
+    app.newName = newName
     app.new = newName === app.name
     return app
 }
