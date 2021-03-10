@@ -30,7 +30,7 @@ async function checkPiratedApps() {
     if ( results.length) {
         console.log("----Out of date apps----");
         for (let i = 0; i < results.length; i++) {
-            console.log(`${results[i].newName} >> ${results[i].name.match(/(\d\.)+\d/)[0]}\n  ${results[i].url}`);
+            console.log(`${results[i].newName} >> ${results[i].name.match(/(v?\d+\.)+\d+/)[0]}\n  ${results[i].url}`);
         }
     } else {
         console.log("All apps are up to date!");
