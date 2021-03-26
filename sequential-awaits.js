@@ -19,7 +19,7 @@ async function go() {
     
     console.log("Results:");
     console.log(results.map(x => x.value));
-    browser.close()
+    await browser.close()
     
 }
 
